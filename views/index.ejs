@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.IO Example with EJS</title>
+</head>
+<body>
+  <h1>Socket.IO Example with Express.js and EJS</h1>
+  
+  <div id="messages"></div>
+
+  <form id="message-form">
+    <input type="text" id="message-input" placeholder="Type your message">
+    <button type="submit">Send</button>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    socket.on('message', (message) => {
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML += `<p>${message}</p>`;
+    });
+
+    document.getElementById('message-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const messageInput = document.getElementById('message-input');
+      const message = messageInput.value.trim();
+
+      if (message) {
+        socket.emit('message', message);
+        
+      }
+    });
+  </script>
+</body>
+</html>
